@@ -9,7 +9,7 @@ body {
 
 main {
     margin: 0 auto;
-    max-width: 400px;
+    max-width: 50em;
 }
 
 h1 {
@@ -23,4 +23,56 @@ h1 {
 
 .site-title {
     font-size: 2em;
+}
+
+.columns {
+    display: flex;
+}
+
+.column2 {
+    flex: 60%;
+    padding-left: 100px;
+}
+
+.inte {
+    columns: 100px 2;
+    column-gap: 40px;
+    column-count: 2;
+    column-rule: 4px double #ff00ff;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+float: left;
+}
+
+li a {
+display: block;
+color: white;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+background-color: #111;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 14px;
 }

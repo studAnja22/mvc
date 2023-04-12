@@ -12,15 +12,24 @@ class LuckyControllerTwig extends AbstractController
     public function number(): Response
     {
         $number = random_int(0, 100);
-
+        $pictures = array('img/tiny.png', 'img/tinyowl.png', 'img/tinydonkey.png', 'img/tinyswan.png');
+        $quotes = array('"Be silent or let thy words be worth more than silence" - Pythagoras',
+        '"Do not say a little in many words, but a great deal in few!"- Pythagoras',
+        '"The only person with whom you have to compare ourselves, is that you in the past. 
+        And the only person better you should be, this is who you are now" - Sigmund Freud',
+        '"From error to error, one discovers the entire truth" - Sigmund Freud',
+        '"The journey of a thousand miles begins with a single step" - Lao Tzu',
+        '"He who knows all the answers has not been asked all the questions" - Confucius',);
         $data = [
-            'number' => $number
+            'number' => $number,
+            'pictures' => $pictures[random_int(0,3)],
+            'quotes' => $quotes[random_int(0,5)],
         ];
 
         return $this->render('lucky_number.html.twig', $data);
     }
 
-    #[Route("/home", name: "home")]
+    #[Route("/", name: "home")]
     public function home(): Response
     {
         return $this->render('home.html.twig');
@@ -32,10 +41,9 @@ class LuckyControllerTwig extends AbstractController
         return $this->render('about.html.twig');
     }
 
-    #[Route("/", name: "hej")]
-    public function hej(): Response
+    #[Route("/report", name: "report")]
+    public function report(): Response
     {
-        # Fungerar!
-        return $this->render('hej.html.twig');
+        return $this->render('report.html.twig');
     }
 }

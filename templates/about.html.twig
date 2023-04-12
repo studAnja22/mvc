@@ -3,9 +3,18 @@
 {% block title %}About{% endblock %}
 
 {% block body %}
-    <h1>About</h1>
-    <p>An image which can be clicked on.</p>
-    <a href="{{ asset('img/glider.svg') }}">
-        <img src="{{ asset('img/glider.svg') }}" alt="">
-    </a>
+    <h1>About mvc</h1>
+    <div class="columns">
+        <div class="column1">
+            <a href="https://dbwebb.se/kurser/mvc-v2">Kursens hemsida</a><br>
+            <a href="https://github.com/dbwebb-se/mvc">Kursrepo GitHub</a>
+            
+        </div>
+            <div class="column2">
+                <p>MVC - Kursen Objektorienterade webbteknologier har sitt fokus i 
+                    objektorienterade programmeringstekniker i programmeringsspråket PHP.</p>
+                <p>I denna kurs kan vi ser fram emot att hantera klassiska objektorienterade 
+                    konstruktioner med databaser och enhetstestning i ett webbaserat ramverk.</p>
+                <p>För mer information om kursen, kika gärna på kursens syllabus på bth och på github.</p>
+    <img src="{{ asset('img/tinydonkey.png') }}" alt="TinyDonkey"></div>
 {% endblock %}
