@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Card{% endblock %}
+
+{% block body %}
+    <h1>Card</h1>
+    <p>Deck page</p>
+    {% include "deckNavbar.html.twig" %}
+    <div class="cardholder">
+        {% for card in deck %}
+        <div title='{{ card.getName }}'class='{{ card.getColor }}'> &#{{ card.getUnicode }};</div>
+        {% endfor %}
+    </div>
+{% endblock %}
