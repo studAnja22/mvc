@@ -6,7 +6,9 @@
     <h1>Card</h1>
     <p>Deck Shuffle</p>
     {% include "deckNavbar.html.twig" %}
-    <p>Här kommer alla kort visas</p>
     <div class="cardholder">
-        <div class="card">&#127149;</div>
+            {% for card in shuffle %}
+            <div title='{{ card.getName }}'class='{{ card.getColor }}'> &#{{ card.getUnicode }};</div>
+            {% endfor %}
+        </div>
 {% endblock %}

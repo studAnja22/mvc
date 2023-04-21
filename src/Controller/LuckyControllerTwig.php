@@ -59,15 +59,10 @@ class LuckyControllerTwig extends AbstractController
     #[Route("/deck", name: "deck")]
     public function deck(): Response
     {
-        $try1 = new Cards();
-        $try1->setCard(10, "Hearts");
-        $test2 = new DeckOfCards();
+        $newDeck = new DeckOfCards();
 
         $data = [
-            'color' => $try1->getColor(),
-            'setter' => $try1->getCardValue(),
-            'deck' => $test2->getDeck(),
-            //'unicode' => $test2.getUnicode(),
+            'deck' => $newDeck->getDeck(),
         ];
 
         return $this->render('deck.html.twig', $data);
@@ -76,7 +71,14 @@ class LuckyControllerTwig extends AbstractController
     #[Route("/deck/shuffle", name: "deckShuffle")]
     public function deckShuffle(): Response
     {
-        return $this->render('deckShuffle.html.twig');
+        $newDeck = new DeckOfCards();
+        $shuffled = $newDeck->shuffleDeck();
+        $data = [
+            'deck' => $newDeck->getDeck(),
+            'shuffle' => $shuffled,
+        ];
+
+        return $this->render('deckShuffle.html.twig', $data);
     }
 
     #[Route("/deck/draw", name: "deckDraw")]

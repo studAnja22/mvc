@@ -51,4 +51,9 @@ class DeckOfCards extends Cards
         return $this->deck;
     }
 
+    public function shuffleDeck() {
+        shuffle($this->deck);
+        return $this->deck;
+    }
+
 }
