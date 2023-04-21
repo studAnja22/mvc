@@ -76,3 +76,33 @@ footer {
     text-align: center;
     padding: 14px;
 }
+
+.cardholder {
+    background-color: mediumseagreen;
+    border: 2px dashed black;
+    padding: 5px;
+    overflow: hidden;
+    width: auto;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    border-color: black;
+    padding: 4px;
+    border-style: solid;
+    float: left;
+    font-size: 10em;
+    margin: 6px;
+    text-align: center;
+    width: auto;
+    line-height: 1em;
+}
+
+.red {
+    color: red;
+}
+
+.black {
+    color: black;
+}

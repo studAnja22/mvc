@@ -17,13 +17,13 @@ class LuckyControllerJson
             'lucky-number' => $number,
             'lucky-message' => 'Hi there!',
         ];
-/*
-        $response = new Response();
-        $response->setContent(json_encode($data));
-        $response->headers->set('Content-Type', 'application/json');
+        /*
+                $response = new Response();
+                $response->setContent(json_encode($data));
+                $response->headers->set('Content-Type', 'application/json');
 
-        return $response;
-*/
+                return $response;
+        */
         // return new JsonResponse($data);
 
         $response = new JsonResponse($data);

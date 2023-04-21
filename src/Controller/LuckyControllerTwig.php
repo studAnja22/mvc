@@ -5,6 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Cards\Cards;
+
+use App\Cards\DeckOfCards;
 
 class LuckyControllerTwig extends AbstractController
 {
@@ -22,8 +25,8 @@ class LuckyControllerTwig extends AbstractController
         '"He who knows all the answers has not been asked all the questions" - Confucius',);
         $data = [
             'number' => $number,
-            'pictures' => $pictures[random_int(0,3)],
-            'quotes' => $quotes[random_int(0,5)],
+            'pictures' => $pictures[random_int(0, 3)],
+            'quotes' => $quotes[random_int(0, 5)],
         ];
 
         return $this->render('lucky_number.html.twig', $data);
@@ -45,5 +48,46 @@ class LuckyControllerTwig extends AbstractController
     public function report(): Response
     {
         return $this->render('report.html.twig');
+    }
+
+    #[Route("/card", name: "card")]
+    public function card(): Response
+    {
+        return $this->render('card.html.twig');
+    }
+
+    #[Route("/deck", name: "deck")]
+    public function deck(): Response
+    {
+        $try1 = new Cards();
+        $try1->setCard(10, "Hearts");
+        $test2 = new DeckOfCards();
+
+        $data = [
+            'color' => $try1->getColor(),
+            'setter' => $try1->getCardValue(),
+            'deck' => $test2->getDeck(),
+            //'unicode' => $test2.getUnicode(),
+        ];
+
+        return $this->render('deck.html.twig', $data);
+    }
+
+    #[Route("/deck/shuffle", name: "deckShuffle")]
+    public function deckShuffle(): Response
+    {
+        return $this->render('deckShuffle.html.twig');
+    }
+
+    #[Route("/deck/draw", name: "deckDraw")]
+    public function deckDraw(): Response
+    {
+        return $this->render('deckDraw.html.twig');
+    }
+
+    #[Route("/deck/draw/:number", name: "deckNumber")]
+    public function deckNumber(): Response
+    {
+        return $this->render('deckNumber.html.twig');
     }
 }
