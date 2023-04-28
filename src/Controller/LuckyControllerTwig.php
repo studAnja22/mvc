@@ -93,7 +93,7 @@ class LuckyControllerTwig extends AbstractController
 
     #[Route("card/deck/draw", name: "draw_init", methods: ['POST'])]
     public function init_draw(
-        Request $request,
+        //Request $request,
         SessionInterface $session
     ): Response
     {
@@ -109,7 +109,7 @@ class LuckyControllerTwig extends AbstractController
         SessionInterface $session
     ): Response
     {
-        if (empty($session->get('hand')) ?? true) {
+        if ($session->get('hand')->howManyLeft() == 0) {
             $hand = new Hand();
             $session->set('hand', $hand);
             $hand = $session->get('hand');
@@ -122,7 +122,7 @@ class LuckyControllerTwig extends AbstractController
             'message' => $hand->howManyLeft(),
         ];
 
-        if ($session->get('hand')->howManyLeft() == 1) {
+        if ($session->get('hand')->howManyLeft() <= 1) {
             $newHand = new Hand();
             $session->set('hand', $newHand);
         } else {
@@ -132,19 +132,52 @@ class LuckyControllerTwig extends AbstractController
 
         return $this->render('deckDraw.html.twig', $data);
     }
-    #[Route("card/deck/draw/:number", name: "deckNumber", methods: ['GET'])]
-    public function init(): Response
-    {
-        return $this->render('deckNumber.html.twig');
-    }
 
     #[Route("card/deck/draw/:number", name: "callbackNumber", methods: ['POST'])]
-    public function initCallback(): Response
+    public function initCallback(
+        Request $request,
+        SessionInterface $session
+    ): Response
     {
-        // for each draw one ?
-        // kolla att det finns kort i leken.
-        // kolla om nr överstiger
+        $numCards = $request->request->get('num_cards');
+
+        if ($session->get('hand')->howManyLeft() == 0) {
+            $hand = new Hand();
+            $session->set('hand', $hand);
+            $hand = $session->get('hand');
+        } else {
+            $hand = $session->get('hand');
+        }
+
+        if ($hand->howManyLeft() < $numCards) { // om det är fler kort i numcard än i leken så drar vi de sista korten.
+            $numCards = $hand->howManyLeft();
+        }
+
+        $session->set('amount', $numCards);
+
         return $this->redirectToRoute('deckNumber');
     }
 
+    #[Route("card/deck/draw/:number", name: "deckNumber", methods: ['GET'])]
+        public function init(
+            SessionInterface $session
+        ): Response
+        {
+            $hand = $session->get('hand');
+            $card = array();
+
+        if ($session->get('amount') > 0) {
+            for ($x = 0; $x < $session->get('amount'); $x++) {
+            $hand->drawAndDiscard();
+            }
+            $card = $hand->getDrawnByIndex($session->get('amount'));
+        }
+
+        $data = [
+            'card' => $card,
+            'number' => $hand->howManyLeft(),
+        ];
+        $session->set('amount', 0);
+            return $this->render('deckNumber.html.twig', $data);
+        }
 }

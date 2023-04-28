@@ -84,6 +84,7 @@ footer {
     overflow: hidden;
     width: auto;
     margin-bottom: 6em;
+    min-height: 300px;
 }
 
 .card {

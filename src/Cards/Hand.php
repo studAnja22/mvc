@@ -2,19 +2,16 @@
 namespace App\Cards;
 
 use App\Cards\DeckOfCards;
-// in the hand we have two arrays. 1) the deck of cards. we should be able to get a shuffled deck and an structured deck.
+
 class Hand
 {
     private $drawn;
     public $deck;
-    // public $shuffledDeck ?? or we shuffle deck in a function
 
     public function __construct()
     {
         $deck = new DeckOfCards();
-
         $this->deck = $deck->getDeck();
-
         $this->drawn = array();
     }
 
@@ -32,6 +29,7 @@ class Hand
         array_shift($this->deck);
         return end($this->drawn);
     }
+
     public function drawTopCard() {
         array_push($this->drawn, current($this->deck));
         return end($this->drawn);
@@ -42,16 +40,21 @@ class Hand
         return $this->deck;
     }
 
-    public function howManyLeft() {
-        return count($this->deck);
-    }
-
     public function checkDrawn() {
         return count($this->drawn);
     }
 
+    public function getDrawnByIndex($index) {
+        $lastCards = array_slice($this->drawn, -$index);
+        return $lastCards;
+    }
+
     public function getAllDrawn() {
         return $this->drawn;
+    }
+
+    public function howManyLeft() {
+        return count($this->deck);
     }
 
     public function getDeck() {
