@@ -1,7 +1,9 @@
 <?php
 namespace App\Cards;
 
-class DeckOfCards extends Cards
+use App\Cards\CardGraphic;
+
+class DeckOfCards
 {
     private $allSuits;
     private $allValues;
@@ -9,7 +11,6 @@ class DeckOfCards extends Cards
 
     public function __construct()
     {
-        //parent::__construct();
         $this->allSuits = [
             'Hearts',
             'Diamonds',
@@ -40,7 +41,7 @@ class DeckOfCards extends Cards
     public function buildDeck() {
         foreach ($this->allSuits as $suit) {
             foreach ($this->allValues as $value) {
-                $newCard = new Cards();
+                $newCard = new CardGraphic();
                 $newCard->setCard($value, $suit);
                 array_push($this->deck, $newCard);
             }

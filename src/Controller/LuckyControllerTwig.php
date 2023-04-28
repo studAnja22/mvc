@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Cards\Cards;
+use App\Cards\CardGraphic;
+use App\Cards\Hand;
+use App\Cards\DeckOfCards;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Cards\Cards;
-
-use App\Cards\DeckOfCards;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class LuckyControllerTwig extends AbstractController
 {
@@ -56,8 +59,10 @@ class LuckyControllerTwig extends AbstractController
         return $this->render('card.html.twig');
     }
 
-    #[Route("/deck", name: "deck")]
-    public function deck(): Response
+    #[Route("card/deck", name: "deck")]
+    public function deck(
+        SessionInterface $session
+    ): Response
     {
         $newDeck = new DeckOfCards();
 
@@ -68,28 +73,78 @@ class LuckyControllerTwig extends AbstractController
         return $this->render('deck.html.twig', $data);
     }
 
-    #[Route("/deck/shuffle", name: "deckShuffle")]
-    public function deckShuffle(): Response
+    #[Route("card/deck/shuffle", name: "deckShuffle")]
+    public function deckShuffle(
+        SessionInterface $session
+    ): Response
     {
-        $newDeck = new DeckOfCards();
-        $shuffled = $newDeck->shuffleDeck();
+        $session->clear();
+
+        $hand = new Hand();
+        $hand->shuffle();
+
         $data = [
-            'deck' => $newDeck->getDeck(),
-            'shuffle' => $shuffled,
+            'shuffle' => $hand->shuffle(),
         ];
+        $session->set('hand', $hand);
 
         return $this->render('deckShuffle.html.twig', $data);
     }
 
-    #[Route("/deck/draw", name: "deckDraw")]
-    public function deckDraw(): Response
+    #[Route("card/deck/draw", name: "draw_init", methods: ['POST'])]
+    public function init_draw(
+        Request $request,
+        SessionInterface $session
+    ): Response
     {
-        return $this->render('deckDraw.html.twig');
+        $session->clear();
+
+        $hand = new Hand();
+        $session->set('hand', $hand);
+        return $this->redirectToRoute('draw_part2');
     }
 
-    #[Route("/deck/draw/:number", name: "deckNumber")]
-    public function deckNumber(): Response
+    #[Route("card/deck/draw", name: "draw_part2", methods: ['GET'])]
+    public function drawPart2(
+        SessionInterface $session
+    ): Response
+    {
+        if (empty($session->get('hand')) ?? true) {
+            $hand = new Hand();
+            $session->set('hand', $hand);
+            $hand = $session->get('hand');
+        } else {
+            $hand = $session->get('hand');
+        }
+
+        $data = [
+            'card' => $hand->drawTopCard(),
+            'message' => $hand->howManyLeft(),
+        ];
+
+        if ($session->get('hand')->howManyLeft() == 1) {
+            $newHand = new Hand();
+            $session->set('hand', $newHand);
+        } else {
+            $hand->removeTopCard();
+            $session->set('hand', $hand);
+        }
+
+        return $this->render('deckDraw.html.twig', $data);
+    }
+    #[Route("card/deck/draw/:number", name: "deckNumber", methods: ['GET'])]
+    public function init(): Response
     {
         return $this->render('deckNumber.html.twig');
     }
+
+    #[Route("card/deck/draw/:number", name: "callbackNumber", methods: ['POST'])]
+    public function initCallback(): Response
+    {
+        // for each draw one ?
+        // kolla att det finns kort i leken.
+        // kolla om nr överstiger
+        return $this->redirectToRoute('deckNumber');
+    }
+
 }

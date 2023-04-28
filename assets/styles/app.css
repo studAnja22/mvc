@@ -83,6 +83,7 @@ footer {
     padding: 5px;
     overflow: hidden;
     width: auto;
+    margin-bottom: 6em;
 }
 
 .card {
@@ -103,6 +104,23 @@ footer {
     color: red;
 }
 
+.drawPage {
+    margin-left: 2em;
+}
+
 .black {
     color: black;
+}
+
+input.button {
+    background-color: mediumseagreen; /* Green */
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input.button:hover {
+    background-color: seagreen; /* Green */
 }

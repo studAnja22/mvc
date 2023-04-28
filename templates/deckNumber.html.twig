@@ -8,4 +8,9 @@
     {% include "deckNavbar.html.twig" %}
     <div class="cardholder">
         <div class="card">&#127149;</div>
+    </div>
+    <form method="post" action="">
+        <input type="number" name="num_dices" min="1" max="99" value="1">
+        <input type="submit" name="do_it" value="Start playing">
+    </form>
 {% endblock %}
