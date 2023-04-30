@@ -161,6 +161,11 @@ class LuckyControllerJson extends AbstractController
         Request $request,
         SessionInterface $session
     ): Response {
+        if ($session->get('deck') == null) {
+            $deck = new Hand();
+            $deck->shuffle();
+            $session->set('deck', $deck);
+        }
         $numCards = $request->request->get('num_cards');
         $session->set('amount', $numCards);
 
@@ -193,24 +198,6 @@ class LuckyControllerJson extends AbstractController
                 }
         }
 
-
-/*
-        if ($cards_left < $session->get('amount')) {
-            $session->set('amount', $cards_left);
-            for ($x = 0; $x < $session->get('amount'); $x++) {
-            $deck->drawAndDiscard();
-            }
-            $card = $deck->getDrawnByIndex($session->get('amount'));
-        }
-
-        if ($deck->howManyLeft() > 0) {
-            foreach ($card as $card) {
-            array_push($json, $card->getName());
-            }
-        } else {
-            $json = "You have drawn all cards";
-        }*/
-        
         $data = [
             'card' => $json,
             'cards_left' => $deck->howManyLeft(),
