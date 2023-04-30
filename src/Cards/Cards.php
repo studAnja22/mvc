@@ -1,6 +1,6 @@
 <?php
-namespace App\Cards;
 
+namespace App\Cards;
 
 class Cards
 {
@@ -25,7 +25,8 @@ class Cards
         $this->setName();
     }
 
-    public function setColor() {
+    public function setColor()
+    {
         if ($this->suit == 'Hearts' or $this->suit == 'Diamonds') {
             $this->color = "card red";
         } else {
@@ -33,7 +34,8 @@ class Cards
         };
     }
 
-    public function setName() {
+    public function setName()
+    {
         if ($this->cardValue == 1 or $this->cardValue > 10) {
             if ($this->cardValue == 1) {
                 $this->name = "Ace of " . $this->suit;
@@ -43,17 +45,19 @@ class Cards
                 $this->name = "Queen of " . $this->suit;
             } elseif ($this->cardValue == 13) {
                 $this->name = "King of " . $this->suit;
-            } 
-        } else {
-                $this->name = $this->cardValue . " of " . $this->suit;
             }
+        } else {
+            $this->name = $this->cardValue . " of " . $this->suit;
+        }
     }
 
-    public function getColor() {
+    public function getColor()
+    {
         return $this->color;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 

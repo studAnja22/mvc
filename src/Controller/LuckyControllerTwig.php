@@ -62,8 +62,7 @@ class LuckyControllerTwig extends AbstractController
     #[Route("card/deck", name: "deck")]
     public function deck(
         SessionInterface $session
-    ): Response
-    {
+    ): Response {
         $newDeck = new DeckOfCards();
 
         $data = [
@@ -76,8 +75,7 @@ class LuckyControllerTwig extends AbstractController
     #[Route("card/deck/shuffle", name: "deckShuffle")]
     public function deckShuffle(
         SessionInterface $session
-    ): Response
-    {
+    ): Response {
         $session->clear();
 
         $hand = new Hand();
@@ -95,8 +93,7 @@ class LuckyControllerTwig extends AbstractController
     public function init_draw(
         //Request $request,
         SessionInterface $session
-    ): Response
-    {
+    ): Response {
         $session->clear();
 
         $hand = new Hand();
@@ -107,8 +104,7 @@ class LuckyControllerTwig extends AbstractController
     #[Route("card/deck/draw", name: "draw_part2", methods: ['GET'])]
     public function drawPart2(
         SessionInterface $session
-    ): Response
-    {
+    ): Response {
         if ($session->get('hand')->howManyLeft() == 0) {
             $hand = new Hand();
             $session->set('hand', $hand);
@@ -119,7 +115,7 @@ class LuckyControllerTwig extends AbstractController
 
         $data = [
             'card' => $hand->drawTopCard(),
-            'message' => $hand->howManyLeft(),
+            'message' => $hand->howManyLeft() - 1,
         ];
 
         if ($session->get('hand')->howManyLeft() <= 1) {
@@ -137,8 +133,7 @@ class LuckyControllerTwig extends AbstractController
     public function initCallback(
         Request $request,
         SessionInterface $session
-    ): Response
-    {
+    ): Response {
         $numCards = $request->request->get('num_cards');
 
         if ($session->get('hand')->howManyLeft() == 0) {
@@ -161,23 +156,22 @@ class LuckyControllerTwig extends AbstractController
     #[Route("card/deck/draw/:number", name: "deckNumber", methods: ['GET'])]
         public function init(
             SessionInterface $session
-        ): Response
-        {
+        ): Response {
             $hand = $session->get('hand');
             $card = array();
 
-        if ($session->get('amount') > 0) {
-            for ($x = 0; $x < $session->get('amount'); $x++) {
-            $hand->drawAndDiscard();
+            if ($session->get('amount') > 0) {
+                for ($x = 0; $x < $session->get('amount'); $x++) {
+                    $hand->drawAndDiscard();
+                }
+                $card = $hand->getDrawnByIndex($session->get('amount'));
             }
-            $card = $hand->getDrawnByIndex($session->get('amount'));
-        }
 
-        $data = [
-            'card' => $card,
-            'number' => $hand->howManyLeft(),
-        ];
-        $session->set('amount', 0);
+            $data = [
+                'card' => $card,
+                'number' => $hand->howManyLeft(),
+            ];
+            $session->set('amount', 0);
             return $this->render('deckNumber.html.twig', $data);
         }
 }

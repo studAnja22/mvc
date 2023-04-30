@@ -76,6 +76,18 @@ footer {
     text-align: center;
     padding: 14px;
 }
+.intro {
+    background-color: white;
+    border: 2px dashed black;
+    padding: 5px;
+    overflow: hidden;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    min-height: 300px;
+}
 
 .cardholder {
     background-color: mediumseagreen;

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Cards;
 
 class CardGraphic extends Cards
@@ -64,8 +65,9 @@ class CardGraphic extends Cards
         parent::__construct();
     }
 
-    public function getUnicode() {
-    return $this->unicode = $this->unicodeArray[$this->name];
+    public function getUnicode()
+    {
+        return $this->unicode = $this->unicodeArray[$this->name];
     }
-    
+
 }

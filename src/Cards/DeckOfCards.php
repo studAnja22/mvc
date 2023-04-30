@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Cards;
 
 use App\Cards\CardGraphic;
@@ -38,7 +39,8 @@ class DeckOfCards
     /**
      * Create new cards and add them to the deck.
      */
-    public function buildDeck() {
+    public function buildDeck()
+    {
         foreach ($this->allSuits as $suit) {
             foreach ($this->allValues as $value) {
                 $newCard = new CardGraphic();
@@ -48,11 +50,13 @@ class DeckOfCards
         }
     }
 
-    public function getDeck() {
+    public function getDeck()
+    {
         return $this->deck;
     }
 
-    public function shuffleDeck() {
+    public function shuffleDeck()
+    {
         shuffle($this->deck);
         return $this->deck;
     }
